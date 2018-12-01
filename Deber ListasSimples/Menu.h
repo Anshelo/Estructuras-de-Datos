@@ -111,7 +111,7 @@ void ingresarOrdenes()
 						case 0:
 							system("cls");
 							cout<<"\t\t\tINGRESO DE DATOS DEL CLIENTE\n ";
-							lista->insertarNodo();
+							lista->insertarNodoInicio();
 							fflush(stdin);
 							cout<<"\n";
 							system("pause");
@@ -119,51 +119,8 @@ void ingresarOrdenes()
 							
 						case 1:
 							system("cls");
-							/*if(lista->vacio())
-							{
-								cout<<"\nDEBE INGRESAR lA PRIMER ORDEN!!\n";
-								system("pause");
-							}*/
-							//else
-							//{
 							cout<<"\t\t\tINGRESO DE DATOS DEL CLIENTE\n ";
-							do
-							{
-								cout<<"\t\tIngrese el nombre: ";
-								cin>>nombre;
-								fflush(stdin);
-							}
-							while(!validarNomApl(nombre));
-							fflush(stdin);
-								
-							do
-							{
-								cout<<"\t\tIngrese el apellido: ";
-								cin>>apellido;
-								fflush(stdin);
-							}
-							while(!validarNomApl(apellido));
-							fflush(stdin);
-							
-							do
-							{
-								cout<<"\t\tIngrese la cedula: ";
-								cin>>cedula;
-								fflush(stdin);
-							}
-							while(!validarCedula(cedula));
-							fflush(stdin);
-							
-							do
-							{
-								cout<<"\t\tIngrese el telefono: ";
-								cin>>telefono;
-								fflush(stdin);
-							}
-							while(!validarTelefono(telefono));
-							fflush(stdin);
-							system("cls");
-							contingresos++;
+							lista->insertarNodoFinal();
 							fflush(stdin);
 							cout<<"\n";
 							system("pause");
@@ -193,7 +150,8 @@ void menuPrincipal ()
 						"2.-BUSCAR CLIENTE",
 						"3.-ELIMINAR CLIENTE",
 						"4.-IMPRIMIR CLIENTE",
-						"5.-SALIR" };
+						"5.-ORDENAR AGENDA",
+						"6.-SALIR" };
 	int cursor = 0;
 	char tecla;
 	for (;;)
@@ -206,7 +164,7 @@ void menuPrincipal ()
 		system("cls");
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);//DA COLOR AL TEXTO LISTAS SIMPLES
 		cout << "                          LISTAS SIMPLES" << endl;
-		for (int i = 0; i < 5; i++) 
+		for (int i = 0; i < 6; i++) 
 		{
 			if (cursor == i)
 			{
@@ -227,7 +185,7 @@ void menuPrincipal ()
 			if (tecla == 80) 
 			{
 				cursor++;
-				if (cursor == 5)
+				if (cursor == 6)
 				{
 					cursor = 0;
 				}
@@ -257,7 +215,7 @@ void menuPrincipal ()
 					
 				case 1:
 					system("cls");
-					//buscarDato();
+					lista->buscarLista();
 					cout<<"\n";
 					system("pause");
 					system("cls");
@@ -265,7 +223,7 @@ void menuPrincipal ()
 					
 				case 2:
 					system("cls");
-					//eliminarDato();
+					lista->eliminarNodo();
 					cout<<"\n";
 					system("pause");
 					system("cls");
@@ -274,12 +232,19 @@ void menuPrincipal ()
 				case 3:
 					system("cls");
 					lista->mostrar();
+					lista->guardarArchivo();
 					cout<<"\n";
 					system("pause");
 					system("cls");
 					break;
-					
 				case 4:
+					system("cls");
+					lista->ordenarLista();
+					cout<<"\n";
+					system("pause");
+					system("cls");
+					break;	
+				case 5:
 					system("cls");
 					cout << endl << "    Gracias por usar nuestro programa......!" << endl;
 					system("pause");

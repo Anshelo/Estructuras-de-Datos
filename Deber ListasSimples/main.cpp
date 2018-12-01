@@ -6,13 +6,5 @@ using namespace std;
 int main() {
 	
 	menuPrincipal();
-	/*Lista *lista = new Lista();
-	char op;
-	do{
-		lista->insertarNodo();
-		cout<<"Ingrese 1 para continuar 0 para salir"<<endl;
-		op=getch();
-	}while(op!='0');
-	lista->mostrar();*/
 	return 0;
 }

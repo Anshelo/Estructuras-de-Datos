@@ -8,7 +8,12 @@ class Lista{
 		Nodo *primero;
 	public:
 		Lista();
-		void insertarNodo();
+		void insertarNodoInicio();
+		void insertarNodoFinal();
+		void buscarLista();
+		void ordenarLista();
+		void eliminarNodo();
+		void guardarArchivo();
 		bool vacio();
 		string leerNombre(char *);
 		string leerApellido(char *);
@@ -186,10 +191,11 @@ bool validarNomApl(string cadena)
 	return bandera;
 }
 
-void Lista::insertarNodo(){
+void Lista::insertarNodoInicio(){
 	
 	string nombre, apellido, telefono;
 	long int cedula;
+
 	do
 	{
 		char *mensaje="Ingrese el Nombre: ";
@@ -213,14 +219,14 @@ void Lista::insertarNodo(){
 
 	do 
 	{
-		char *mensaje3="Ingrese el Telefono: ";
+		char *mensaje3="Ingrese el Telefono de Casa (Ejm: 022369131): ";
 		telefono=leerTelefono(mensaje3);
 	}while(!validarTelefono(telefono));
 	
 	
 	if(vacio()){
 		//primero->setDato(dato);
-		Nodo *primero=new Nodo();
+		primero=new Nodo();
 		primero->setNombre(nombre);
 		primero->setApellido(apellido);
 		primero->setCI(cedula);
@@ -238,20 +244,169 @@ void Lista::insertarNodo(){
 		primero=aux;
 	}
 }
+void Lista::insertarNodoFinal(){
+	
+	string nombre, apellido, telefono;
+	long int cedula;
+	Nodo *nuevo = new Nodo();
+	do
+	{
+		char *mensaje="Ingrese el Nombre: ";
+		nombre=leerNombre(mensaje);
+		fflush(stdin);
+		
+	}while(!validarNomApl(nombre));
+	
+	do
+	{
+		char *mensaje1="Ingrese el Apellido: ";
+		apellido=leerApellido(mensaje1);
+		fflush(stdin);
+	}while(!validarNomApl(apellido));
+
+	do 
+	{
+		char *mensaje2="Ingrese la Cedula: ";
+		cedula=leerCedula(mensaje2);
+	}while(!validarCedula(cedula));
+
+	do 
+	{
+		char *mensaje3="Ingrese el Telefono de Casa (Ejm: 022369131): ";
+		telefono=leerTelefono(mensaje3);
+	}while(!validarTelefono(telefono));
+	nuevo->setApellido(apellido);
+	nuevo->setNombre(nombre);
+	nuevo->setCI(cedula);
+	nuevo->setTelefono(telefono);
+	Nodo *aux = primero;
+	Nodo *aux2;
+	while(aux!=NULL){
+		aux2 = aux;
+		aux = aux->getSiguiente();
+	}
+	if(primero==aux){
+		primero = nuevo;
+	}else{
+		aux2->setSiguiente(nuevo);
+	}
+	nuevo->setSiguiente(aux);
+}
+void Lista::buscarLista(){
+	bool bandera = false;
+	Nodo *aux=new Nodo();
+	aux = primero;
+	long cedu;
+	cout<<"Ingrese la cedula a buscar"<<endl;
+	cin>>cedu;
+	while(aux!=NULL){
+		if(aux->getCI()==cedu){
+			bandera=true;
+			cout<<"Cedula encontrada"<<endl;
+			cout<<"Nombre: "<<aux->getNombre()<<endl;
+			cout<<"Apellido: "<<aux->getApellido()<<endl;
+			cout<<"Cedula: "<<aux->getCI()<<endl;
+			cout<<"Telefono: "<<aux->getTelefono()<<endl;
+		}
+		aux=aux->getSiguiente();
+	}
+	if(bandera==false){
+		cout<<"La cedula no existe"<<endl;	
+	}
+}
+void Lista::eliminarNodo(){
+	bool bandera = false;
+	long cedu;
+	cout<<"Ingrese la cedula a eliminar"<<endl;
+	cin>>cedu;
+	if(primero!=NULL){
+		Nodo *aux_borrar;
+		Nodo *anterior = NULL;
+		aux_borrar = primero;
+		
+		while((aux_borrar !=NULL)&&(aux_borrar->getCI()!=cedu)){
+			anterior = aux_borrar;
+			aux_borrar = aux_borrar->getSiguiente();
+		}
+		if(aux_borrar == NULL){
+			cout<<"El elemento ha sido encontrado y borrado";
+		}else if(anterior ==NULL){
+			primero = primero->getSiguiente();
+			delete aux_borrar;
+		}
+		else{
+			anterior->setSiguiente(aux_borrar);
+		}
+	}
+	
+}
+void Lista::ordenarLista(){
+	 Nodo *actual=new Nodo();; 
+	 Nodo *sig=new Nodo();;
+     string nom;
+     string ape;
+     long int ced;
+     string telf;
+     actual = primero;
+     while(actual->getSiguiente()!= NULL)
+     {
+          sig = actual->getSiguiente();
+          
+          while(sig!=NULL)
+          {
+               if(actual->getApellido() > sig->getApellido())
+               {
+                    ape = sig->getApellido();
+					nom = sig->getNombre();
+					ced = sig->getCI();
+					telf = sig->getTelefono();   
+                    sig->setApellido(actual->getApellido());
+                    sig->setNombre(actual->getNombre());
+                    sig->setCI(actual->getCI());
+                    sig->setTelefono(actual->getTelefono());
+                    actual->setApellido(ape);
+                    actual->setNombre(nom);
+                    actual->setCI(ced);
+                    actual->setTelefono(telf);
+               }
+               sig = sig->getSiguiente();                    
+          }    
+          actual = actual->getSiguiente();
+          sig = actual->getSiguiente();
+     }
+}
+void Lista::guardarArchivo(){
+	ofstream archivo;
+	archivo.open("Agenda.txt",ios::out);
+	if(archivo.fail()){
+		cout<<"No se pudo abrir el archivo";
+	}
+	if(!vacio()){
+		Nodo *aux=new Nodo();
+		aux=primero;
+		do{
+			archivo<<"Nombre: "<<aux->getNombre()<<endl;
+			archivo<<"Apellido: "<<aux->getApellido()<<endl;
+			archivo<<"Cedula: "<<aux->getCI()<<endl;
+			archivo<<"Telefono: "<<aux->getTelefono()<<endl;
+			aux=aux->getSiguiente();
+		}while(aux!=NULL);
+	}
+	archivo.close();
+}
 void Lista::mostrar(){
 	system("cls");
 	if(!vacio()){
 		Nodo *aux=new Nodo();
 		aux=primero;
 		do{
-			cout<<"->"<<aux->getNombre()<<endl;
-			cout<<"->"<<aux->getApellido()<<endl;
-			cout<<"->"<<aux->getCI()<<endl;
-			cout<<"->"<<aux->getTelefono()<<endl;
+			cout<<"Nombre: "<<aux->getNombre()<<endl;
+			cout<<"Apellido: "<<aux->getApellido()<<endl;
+			cout<<"Cedula: "<<aux->getCI()<<endl;
+			cout<<"Telefono: "<<aux->getTelefono()<<endl;
 			aux=aux->getSiguiente();
 		}while(aux!=NULL);
 	}
-	fflush(stdin);
 }
 
 
