@@ -117,16 +117,7 @@ void ingresarOrdenes()
 						case 1:
 							system("cls");
 							cout<<"\t\t\tINGRESO DE DATOS DEL CLIENTE\n ";
-							if(lista->vacio())
-							{
-								cout<<"\nDEBE INGRESAR lA PRIMER ORDEN!!\n";
-								system("pause");
-							}
-							else
-							{
-								lista->insertarNodoFin();
-							}
-							
+							lista->insertarNodoFin();
 							fflush(stdin);
 							cout<<"\n";
 							system("pause");

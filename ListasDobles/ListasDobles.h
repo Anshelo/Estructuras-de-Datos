@@ -263,7 +263,7 @@ void ListasDobles::insertarNodoFin()
 	string nombre, apellido, telefono;
 	long int cedula;
 	Nodo *nuevo = new Nodo();
-    Nodo *aux= new Nodo();
+	Nodo *p;
 	do
 	{
 		char *mensaje="Ingrese el Nombre: ";
@@ -289,7 +289,7 @@ void ListasDobles::insertarNodoFin()
 	
 	do
 	{
-		char *mensaje3="Ingrese el Telefono: ";
+		char *mensaje3="Ingrese el Telefono: (Ejm:022369131)";
 		telefono=leerTelefono(mensaje3);
 	}while(!validarTelefono(telefono));
 	
@@ -297,20 +297,21 @@ void ListasDobles::insertarNodoFin()
 	nuevo->setApellido(apellido);
 	nuevo->setCI(cedula);
 	nuevo->setTelefono(telefono);
-	
-	if(!vacio())
+	if(primero==NULL)
 	{
-		while(aux->getSiguiente()!=NULL)
-		{
-			aux=aux->getSiguiente();			
-		}
-		nuevo->setSiguiente(aux->getSiguiente());
-		aux->setSiguiente(nuevo);
-		nuevo->setAnterior(aux);
+		primero = nuevo;
+		primero->setSiguiente(primero);
+		primero->setAnterior(primero);
 	}
 	else
 	{
-        printf("Debe ingresar el primer Dato!\n\n");
+        p=primero;
+		while(p->getSiguiente()!=primero){
+			p = p->getSiguiente();
+		}
+		p->setSiguiente(nuevo);
+		nuevo->setSiguiente(NULL);
+		nuevo->setAnterior(p);
     }
 	
 }
