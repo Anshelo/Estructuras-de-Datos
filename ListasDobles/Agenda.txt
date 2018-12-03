@@ -1,0 +1,16 @@
+Nombre: edgar
+Apellido: romero
+Cedula: 1725155350
+Telefono: 022530003
+Nombre: danilo
+Apellido: colimba
+Cedula: 1725155350
+Telefono: 022530003
+Nombre: melanie
+Apellido: cano
+Cedula: 1725155350
+Telefono: 022530003
+Nombre: david
+Apellido: ayala
+Cedula: 1725155350
+Telefono: 022530003
