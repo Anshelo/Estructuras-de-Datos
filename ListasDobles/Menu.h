@@ -117,7 +117,7 @@ void ingresarOrdenes()
 						case 1:
 							system("cls");
 							cout<<"\t\t\tINGRESO DE DATOS DEL CLIENTE\n ";
-							lista->insertarNodoFin();
+							lista->insertarNodoInicio();
 							fflush(stdin);
 							cout<<"\n";
 							system("pause");

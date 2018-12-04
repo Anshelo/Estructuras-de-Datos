@@ -231,7 +231,7 @@ void ListasDobles::insertarNodoInicio()
 	
 	do
 	{
-		char *mensaje3="Ingrese el Telefono: ";
+		char *mensaje3="Ingrese el Telefono (Ejm: 022369131): ";
 		telefono=leerTelefono(mensaje3);
 	}while(!validarTelefono(telefono));
 	
@@ -263,7 +263,7 @@ void ListasDobles::insertarNodoFin()
 	string nombre, apellido, telefono;
 	long int cedula;
 	Nodo *nuevo = new Nodo();
-	Nodo *p;
+	Nodo *p,*aux,*prim=NULL,*ult=NULL;
 	do
 	{
 		char *mensaje="Ingrese el Nombre: ";
@@ -297,23 +297,27 @@ void ListasDobles::insertarNodoFin()
 	nuevo->setApellido(apellido);
 	nuevo->setCI(cedula);
 	nuevo->setTelefono(telefono);
-	if(primero==NULL)
+	p=primero;
+	if (p== NULL) //Verifica si la lista esta vacia e ingresa el primer nodo de ser asi
 	{
-		primero = nuevo;
-		primero->setSiguiente(primero);
-		primero->setAnterior(primero);
+		p = nuevo;
+		p->setSiguiente(p);
+		p->setAnterior(p);
 	}
 	else
 	{
-        p=primero;
-		while(p->getSiguiente()!=primero){
-			p = p->getSiguiente();
+		aux=p;
+		while(aux->getAnterior()!=p){
+			aux = aux->getSiguiente();
 		}
-		p->setSiguiente(nuevo);
-		nuevo->setSiguiente(NULL);
-		nuevo->setAnterior(p);
-    }
-	
+		ult = p;
+		prim = p;
+		aux->setSiguiente(nuevo);
+		nuevo->setAnterior(prim);
+		nuevo->setSiguiente(ult);
+		aux = nuevo;
+		aux->setAnterior(ult);
+	}
 }
 void ListasDobles::buscarNodo()
 {
@@ -331,7 +335,7 @@ void ListasDobles::buscarNodo()
 		}while(!validarCedula(cedula));
 		fflush(stdin);
 		
-		while((aux!=NULL) && encontrado!=true)
+		while((aux!=NULL))
 		{
 			if(aux->getCI()==cedula)
 			{
@@ -339,10 +343,9 @@ void ListasDobles::buscarNodo()
 	      		encontrado=true;
 			}
 			aux=aux->getSiguiente();	
-			if(encontrado == false)
-			{
-				cout<<"\n\nNO SE ENCONTRARON LOS DATOS!!!";
-			}
+		}
+		if(encontrado == false){
+			cout<<"\n\nNO SE ENCONTRARON LOS DATOS!!!";
 		}	
 	}
 	
